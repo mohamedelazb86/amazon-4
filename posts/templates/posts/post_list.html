@@ -1,1 +1,6 @@
 <h1>All Posts</h1>
+{% for post in posts %}
+<ul><li>
+   <a href="/posts/{{post.slug}}"><h3>{{post}}</h3></a></a:hr> 
+</li></ul>
+{% endfor %}
