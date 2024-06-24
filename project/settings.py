@@ -43,10 +43,21 @@ INSTALLED_APPS = [
     "django_bootstrap5",
     "taggit",
     'django_summernote',
+    'rest_framework',
+    'rest_framework.authtoken',
+
 
     # my apps
     'posts',
 ]
+
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        
+        'rest_framework.authentication.TokenAuthentication',
+    ]
+}
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
