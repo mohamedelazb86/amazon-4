@@ -52,3 +52,9 @@ def update_post(request,slug):
         form=PostForm(instance=post)
     return render(request,'posts/post_update.html',{'form':form})
 
+
+def delete_post(request,slug):
+    post=Post.objects.get(slug=slug)
+    post.delete()
+    return redirect ('/posts/')
+
