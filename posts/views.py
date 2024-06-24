@@ -41,4 +41,14 @@ def post_detail(request,slug):
         'form':form
  }
     return render(request,'posts/post_detail.html',context)
+def update_post(request,slug):
+    post=Post.objects.get(slug=slug)
+    if request.method=='POST':
+        form=PostForm(request.POST,request.FILES,instance=post)
+        if form.is_valid():
+            form.save()
+            return redirect('/posts/')
+    else:
+        form=PostForm(instance=post)
+    return render(request,'posts/post_update.html',{'form':form})
 
