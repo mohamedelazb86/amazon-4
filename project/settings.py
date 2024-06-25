@@ -52,6 +52,7 @@ INSTALLED_APPS = [
 
     # my apps
     'posts',
+    'products',
 ]
 
 

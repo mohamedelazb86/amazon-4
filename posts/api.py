@@ -1,4 +1,4 @@
-from .serializers import PostlistSerailizers,PostDetailSerializers
+from .serializers import PostlistSerailizers,PostDetailSerializers,PostUpdateSerializers
 from rest_framework import generics
 from rest_framework.permissions import IsAuthenticated
 from .models import Post
@@ -26,3 +26,7 @@ class PostDetailApi(generics.RetrieveAPIView):
     queryset=Post.objects.all()
     serializer_class=PostDetailSerializers
     permission_classes = [IsAuthenticated]
+
+class PostUpdateApi(generics.UpdateAPIView):
+    queryset=Post.objects.all()
+    serializer_class=PostUpdateSerializers
