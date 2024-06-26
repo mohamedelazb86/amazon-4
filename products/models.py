@@ -28,6 +28,12 @@ class Product(models.Model):
         self.slug=slugify(self.name)
         super(Product,self).save(*args,**kwargs)
 
+        
+    @property
+    def review_count(self):
+        reviews=self.review_product.all().count()
+        return reviews
+
 class ProductImage(models.Model):
     product=models.ForeignKey(Product,related_name='image_product',on_delete=models.CASCADE)
     images=models.ImageField(upload_to='images')
