@@ -3,6 +3,7 @@ from django.utils.translation import gettext_lazy as _
 from django.contrib.auth.models import User
 from django.utils import timezone
 from taggit.managers import TaggableManager
+from django.utils.text import slugify
 FLAG_TYPE=[
     ('New','New'),
     ('Sale','Sale'),
@@ -23,6 +24,9 @@ class Product(models.Model):
 
     def __str__(self):
         return self.name
+    def save(self,*args,**kwargs):
+        self.slug=slugify(self.name)
+        super(Product,self).save(*args,**kwargs)
 
 class ProductImage(models.Model):
     product=models.ForeignKey(Product,related_name='image_product',on_delete=models.CASCADE)
@@ -50,5 +54,9 @@ class Brand(models.Model):
 
     def __str__(self):
         return self.name
+    def save(self,*args,**kwargs):
+        self.slug=slugify(self.name)
+        super(Brand,self).save(*args,**kwargs)
+
 
 
