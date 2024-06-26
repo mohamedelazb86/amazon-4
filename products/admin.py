@@ -14,7 +14,7 @@ class ProductAdmin(SummernoteModelAdmin):
     summernote_fields = ('subtitle','descriptions')
     inlines=[ProductImageAdmin]
 
-admin.site.register(ProductImage)
+#admin.site.register(ProductImage)
 admin.site.register(Product,ProductAdmin)
 admin.site.register(Brand)
 admin.site.register(Review)
