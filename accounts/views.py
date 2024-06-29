@@ -4,6 +4,7 @@ from django.core.mail import send_mail
 from .forms import SignupForm,ActivateForm
 from .models import Profile
 from django.contrib.auth.models import User
+from products.models import Product,Brand
 
 
 def signup(request):
@@ -72,3 +73,18 @@ def activate_code(request,username):
     else:
         form=ActivateForm()
     return render(request,'accounts/activate.html',{'form':form})
+
+
+def dasbord(request):
+    users=User.objects.all().count()
+    new_product=Product.objects.filter(flag='New').count()
+    brands=Brand.objects.all().count()
+
+    context={
+        'user':users,
+        'mynew':new_product,
+        'mybrand':brands,
+        
+
+    }
+    return render(request,'accounts/dasbord.html',context)
