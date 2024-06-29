@@ -23,3 +23,17 @@ def create_profile(sender,instance,created,**kwargs):
             user=instance
         )
 
+ADDRESS_TYPE=[
+    ('Home','Home'),
+    ('Office','Office'),
+    ('Others','Others'),
+
+    ]
+class Address(models.Model):
+    user=models.ForeignKey(User,related_name='address_user',on_delete=models.CASCADE)
+    address_type=models.CharField(max_length=75,choices=ADDRESS_TYPE)
+    address=models.TextField(max_length=500)
+
+    def __str__(self):
+        return str(self.user)
+

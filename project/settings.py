@@ -54,6 +54,7 @@ INSTALLED_APPS = [
     'posts',
     'products',
     'settings',
+    'orders',
 ]
 
 
@@ -142,6 +143,9 @@ USE_I18N = True
 
 USE_TZ = True
 
+#LOGIN_URL = "userauths:sign-in"
+#LOGOUT_REDIRECT_URL = "userauths:sign-in"
+LOGIN_REDIRECT_URL = '/'
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.2/howto/static-files/

@@ -2,6 +2,8 @@ from django.shortcuts import render,redirect
 from .models import Post,Review
 from .forms import ReviewForm,PostForm
 
+from django.contrib.auth.decorators import login_required
+
 def post_list(request):
     posts=Post.objects.all()
     if request.method=='POST':
@@ -20,7 +22,7 @@ def post_list(request):
         }
     return render(request,'posts/post_list.html',context)
 
-
+@login_required
 def post_detail(request,slug):
     post=Post.objects.get(slug=slug)
     reviews=Review.objects.filter(post=post)
@@ -41,6 +43,8 @@ def post_detail(request,slug):
         'form':form
  }
     return render(request,'posts/post_detail.html',context)
+
+
 def update_post(request,slug):
     post=Post.objects.get(slug=slug)
     if request.method=='POST':
