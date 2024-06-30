@@ -46,8 +46,17 @@ class Cart(models.Model):
     
     total_with_copoun=models.FloatField(null=True,blank=True)
 
+    @property
+    def cart_total(self):
+        total=0
+        cart_detail=self.detail_cart.all()
+        for item in cart_detail:
+            total +=item.total
+
+        return total
+
 class Cart_Detail(models.Model):
-    cart=models.ForeignKey(Order,related_name='detail_cart',on_delete=models.CASCADE)
+    cart=models.ForeignKey(Cart,related_name='detail_cart',on_delete=models.CASCADE)
     product=models.ForeignKey(Product,related_name='detatil_productcart',on_delete=models.CASCADE)
     quantity=models.FloatField(default=1)
    

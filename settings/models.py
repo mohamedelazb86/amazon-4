@@ -17,3 +17,9 @@ class Setting(models.Model):
     def __str__(self):
         return self.name
 
+
+class Delivery_fee(models.Model):
+    fee=models.IntegerField()
+
+    def __str__(self):
+        return str(self.fee)
