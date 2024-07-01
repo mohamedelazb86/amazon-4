@@ -1,9 +1,10 @@
-from django.shortcuts import render
+from django.shortcuts import render,redirect
 from django.contrib.auth.models import User
 from .models import Order,Cart,Cart_Detail,Copoun
 from django.shortcuts import  get_object_or_404
 from settings.models import Delivery_fee
 import datetime
+from products.models import Product
 
 
 
@@ -78,3 +79,20 @@ def checkout(request):
     }
     
     return render(request,'orders/checkout.html',context)
+
+
+def add_to_cart(request):
+    product=Product.objects.get(id=request.POST['product_id'])
+    quantity=int(request.POST['quantity'])
+
+    cart=Cart.objects.get(user=request.user,status='Inprogress')
+    cart_detail,created=Cart_Detail.objects.get_or_create(cart=cart,product=product)
+
+    cart_detail.quantity=quantity
+    cart_detail.total=cart_detail.quantity * product.price
+    cart_detail.save()
+    
+    return redirect(f'/products/{product.slug}')
+
+
+   
