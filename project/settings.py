@@ -93,7 +93,8 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
-                'settings.get_context_data.context_data'
+                'settings.get_context_data.context_data',
+                'orders.context_data.get_context_data'
             ],
         },
     },
