@@ -1,6 +1,6 @@
 from django.urls import path
 from .views import order_list,checkout,add_to_cart
-from .api import OrderApi,OrderDetailApi,Apply_Copoun
+from .api import OrderApi,OrderDetailApi,Apply_Copoun,Create_Order
 
 urlpatterns = [
     path('',order_list),
@@ -12,4 +12,5 @@ urlpatterns = [
     path('<str:username>/api',OrderApi.as_view()),
     path('<str:urename>/<int:pk>',OrderDetailApi.as_view()),
     path('api/<str:username>/apply_copoun',Apply_Copoun.as_view()),
+    path('api/<str:username>/create_oder/api',Create_Order.as_view()),
 ]

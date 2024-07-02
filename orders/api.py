@@ -7,6 +7,12 @@ import datetime
 from settings.models import Delivery_fee
 from rest_framework.response import Response
 from rest_framework import status
+from accounts.models import Address
+from products.models import Product
+
+
+
+
 
 class OrderApi(generics.ListAPIView):
    queryset=Order.objects.all()
@@ -18,9 +24,14 @@ class OrderApi(generics.ListAPIView):
     queryset = queryset.filter(user=user) # TODO
     return queryset
    
+
+
+   
 class OrderDetailApi(generics.RetrieveAPIView):
   queryset=Order.objects.all()
   serializer_class=OrderSerializers
+
+
 
 class Apply_Copoun(generics.GenericAPIView):
   def post(self,request,*args,**kwargs):
@@ -47,3 +58,45 @@ class Apply_Copoun(generics.GenericAPIView):
       else:
         return Response({'message':'sorry this copoun_code expired'},status=status.HTTP_400_BAD_REQUEST)
     return Response({'message':'this copoun not found'},status=status.HTTP_404_NOT_FOUND)
+  
+
+class Create_Order(generics.GenericAPIView):
+    def post(self,request,*args,**kwargs):
+      user=User.objects.get(username=self.kwargs['username'])
+      cart=Cart.objects.get(user=user,status='Inprogress')
+      cart_detail=Cart_Detail.objects.filter(cart=cart)
+      address=request.data['address_id']
+      user_address=Address.objects.get(id=address)
+
+
+      # cart:order
+      new_order=Order.objects.create(
+        user=user,
+        code=request.data['payment_code'],
+        status='Recieved',
+        delivery_address=user_address,
+        copoun=cart.copoun,
+        total_with_copoun=cart.total_with_copoun,
+        total=cart.cart_total
+      )
+      # cart_detail  : order_detail
+      for item in cart_detail:
+        product=Product.objects.get(id=item.product.id)
+        Order_Detail.objects.create(
+          order=new_order,
+          product=product,
+          quantity=item.quantity,
+          price=product.price,
+          total=round(item.quantity * item.product.price,2),
+        )
+        # decrese product
+        product.quantity -=item.quantity
+        product.save()
+
+      cart.status='Complete'
+      cart.save()
+
+      return Response({'message':'ok create order is sucssefully'},status=status.HTTP_200_OK)
+    
+    
+
